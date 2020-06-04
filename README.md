@@ -4,7 +4,7 @@ Durante a live coding foi desenvolvido por [Rodrigo Peleias](https://github.com/
 - Disponível no link o [Projeto Original](https://github.com/rpeleias/personapi_dio_live_coding "Projeto Original")
 
 # 
-###### Neste projeto foi abordado os seguintes tópicos:
+##### Neste projeto foi abordado os seguintes tópicos:
 - Setup inicial utilizando o Spring Boot Initialzr.
 - Operações para gerenciamento de usuários utilizando  o padrão arquitetural REST (Cadastro, leitura, atualização e remoção de pessoas de um sistema).
 - Controle de versão através do Github.
@@ -26,12 +26,4 @@ Após executar o comando acima, basta apenas abrir o seguinte endereço e visual
 `http://localhost:8080/api/v1/people`
 
 # 
-###### Proposta para evolução do projeto:
-
-
-
-
-
-
-
-
+##### Proposta para evolução do projeto
