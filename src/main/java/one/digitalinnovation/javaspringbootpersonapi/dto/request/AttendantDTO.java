@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Phone;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

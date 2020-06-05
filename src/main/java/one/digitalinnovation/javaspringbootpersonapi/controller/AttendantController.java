@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.MessageDigest;
+import java.util.List;
 
 /*
 O controller é utilizado para fazer a comunicação com o client (front).
@@ -30,4 +31,8 @@ public class AttendantController {
         return attendantService.createAttendant(attendantDTO);
     }
 
+    @GetMapping
+    public List<AttendantDTO> listAll(){
+        return attendantService.listAll();
+    }
 }

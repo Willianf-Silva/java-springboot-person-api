@@ -9,6 +9,9 @@ import one.digitalinnovation.javaspringbootpersonapi.repository.AttendantReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AttendantService {
     private final AttendantMapper attendantMapper = AttendantMapper.INSTANCE;
@@ -34,5 +37,12 @@ public class AttendantService {
                 .builder()
                 .message(message + id)
                 .build();
+    }
+
+    public List<AttendantDTO> listAll() {
+        List<Attendant> allAttendant = attendantRepository.findAll();
+        return allAttendant.stream()
+                .map(attendantMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
