@@ -27,3 +27,4 @@ Após executar o comando acima, basta apenas abrir o seguinte endereço e visual
 
 # 
 ##### Proposta para evolução do projeto
+- Desenvolver um serviço para pequenas empresas gerenciar a fila de atedimento.
