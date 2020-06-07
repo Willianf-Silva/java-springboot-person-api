@@ -3,7 +3,7 @@ package one.digitalinnovation.javaspringbootpersonapi.controller;
 import lombok.AllArgsConstructor;
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.PersonDTO;
-import one.digitalinnovation.javaspringbootpersonapi.exception.PersonNotFoundException;
+import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,18 +31,18 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+    public PersonDTO findById(@PathVariable Long id) throws RecursoNotFoundException {
         return  personService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws RecursoNotFoundException {
         return personService.upddateById(id, personDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
+    public void deleteById(@PathVariable Long id) throws RecursoNotFoundException {
         personService.delete(id);
     }
 }

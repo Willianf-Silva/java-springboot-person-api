@@ -3,13 +3,14 @@ package one.digitalinnovation.javaspringbootpersonapi.service;
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.AttendantDTO;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Attendant;
+import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.mapper.AttendantMapper;
-import one.digitalinnovation.javaspringbootpersonapi.mapper.PersonMapper;
 import one.digitalinnovation.javaspringbootpersonapi.repository.AttendantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,14 +30,7 @@ public class AttendantService {
         // Salvando em uma variável o objeto que foi salvo no banco de dados
         Attendant savedAttendant = attendantRepository.save(attendantToSave);
 
-        return createdMessageResponse(savedAttendant.getId(), "Created attendant with id: ");
-    }
-
-    private MessageResponseDTO createdMessageResponse(Long id, String message) {
-        return MessageResponseDTO
-                .builder()
-                .message(message + id)
-                .build();
+        return messageResponse("Created attendant with id: ", savedAttendant.getId());
     }
 
     public List<AttendantDTO> listAll() {
@@ -44,5 +38,38 @@ public class AttendantService {
         return allAttendant.stream()
                 .map(attendantMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public AttendantDTO findById(Long id) throws RecursoNotFoundException {
+        Optional<Attendant> optionalAttendant = attendantRepository.findById(id);
+
+        if (optionalAttendant.isEmpty()){
+            throw new RecursoNotFoundException("Attendant not found with ID: ", id);
+        }
+        return attendantMapper.toDTO(optionalAttendant.get());
+    }
+
+
+    public void delete(Long id) throws RecursoNotFoundException {
+        verifyIfExistis(id);
+        attendantRepository.deleteById(id);
+    }
+
+    public MessageResponseDTO updateById(Long id, AttendantDTO attendantDTO) throws RecursoNotFoundException {
+        verifyIfExistis(id);
+        Attendant updateAttendant = attendantRepository.save(attendantMapper.toModel(attendantDTO));
+        return messageResponse("Update attendant with id ", updateAttendant.getId());
+    }
+
+    private Attendant verifyIfExistis(Long id) throws RecursoNotFoundException {
+        return attendantRepository.findById(id).orElseThrow(()-> new RecursoNotFoundException("Attendant not found with ID: ", id));
+    }
+
+
+    private MessageResponseDTO messageResponse(String message, Long id) {
+        return MessageResponseDTO
+                .builder()
+                .message(message + id)
+                .build();
     }
 }
