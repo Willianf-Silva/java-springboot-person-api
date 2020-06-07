@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
@@ -24,7 +26,7 @@ public class ProductDTO {
     @Size(min = 2, max = 100)
     private String description;
 
-    @NotEmpty
-    @Size(min = 5, max = 6)
+    @Valid
+    @NotNull
     private double value;
 }

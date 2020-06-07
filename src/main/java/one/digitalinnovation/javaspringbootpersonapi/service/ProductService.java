@@ -2,7 +2,6 @@ package one.digitalinnovation.javaspringbootpersonapi.service;
 
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.ProductDTO;
-import one.digitalinnovation.javaspringbootpersonapi.entity.Person;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Product;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.mapper.ProductMapper;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -39,6 +37,13 @@ public class ProductService {
         return productMapper.toDTO(productRepository.findById(id).get());
     }
 
+    public MessageResponseDTO updateProduct(Long id, ProductDTO productDTO) throws RecursoNotFoundException {
+        verifyIfExists(id);
+        Product savedProduct = productRepository.save(productMapper.toModel(productDTO));
+
+        return messageResponse("Update product with id ", savedProduct.getId());
+    }
+
     private MessageResponseDTO messageResponse(String message, Long id) {
         return MessageResponseDTO.builder()
                 .message(message + id)
@@ -46,6 +51,8 @@ public class ProductService {
     }
 
     private Product verifyIfExists(Long id) throws RecursoNotFoundException {
-        return productRepository.findById(id).orElseThrow(()-> new RecursoNotFoundException("Person not found with ID ", id));
+        return productRepository.findById(id).orElseThrow(()-> new RecursoNotFoundException("Product not found with ID ", id));
     }
+
+
 }

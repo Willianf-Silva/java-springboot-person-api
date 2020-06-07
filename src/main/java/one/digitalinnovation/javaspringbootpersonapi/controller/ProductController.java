@@ -8,6 +8,7 @@ import one.digitalinnovation.javaspringbootpersonapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public MessageResponseDTO createProduct(@RequestBody ProductDTO productDTO){
+    public MessageResponseDTO createProduct(@RequestBody @Valid ProductDTO productDTO){
         return productService.createProduct(productDTO);
     }
 
@@ -33,5 +34,10 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductDTO findById(@PathVariable Long id) throws RecursoNotFoundException {
         return productService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateProduct(@PathVariable Long id, @RequestBody @Valid ProductDTO productDTO) throws RecursoNotFoundException {
+        return productService.updateProduct(id, productDTO);
     }
 }
