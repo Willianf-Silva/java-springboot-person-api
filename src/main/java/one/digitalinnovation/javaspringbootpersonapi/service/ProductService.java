@@ -44,6 +44,11 @@ public class ProductService {
         return messageResponse("Update product with id ", savedProduct.getId());
     }
 
+    public void delete(Long id) throws RecursoNotFoundException {
+        verifyIfExists(id);
+        productRepository.deleteById(id);
+    }
+
     private MessageResponseDTO messageResponse(String message, Long id) {
         return MessageResponseDTO.builder()
                 .message(message + id)
@@ -53,6 +58,7 @@ public class ProductService {
     private Product verifyIfExists(Long id) throws RecursoNotFoundException {
         return productRepository.findById(id).orElseThrow(()-> new RecursoNotFoundException("Product not found with ID ", id));
     }
+
 
 
 }
