@@ -6,24 +6,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class ProductItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
-
     @Column(nullable = false)
-    private String description;
+    private int quantity;
 
-    @Column(nullable = false)
-    private double value;
+    @Column(length = 6, precision = 2, nullable = false)
+    private double totalValue;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

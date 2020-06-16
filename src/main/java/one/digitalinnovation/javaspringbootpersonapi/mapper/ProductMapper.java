@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-    Product toModel(ProductDTO serviceDTO);
+    Product toModel(ProductDTO productDTO);
 
-    ProductDTO toDTO(Product service);
+    ProductDTO toDTO(Product product);
 }
