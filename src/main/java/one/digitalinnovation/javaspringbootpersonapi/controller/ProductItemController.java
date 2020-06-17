@@ -2,6 +2,7 @@ package one.digitalinnovation.javaspringbootpersonapi.controller;
 
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.ProductItemDTO;
+import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.service.ProductItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,17 @@ public class ProductItemController {
         return productItemService.createProductItem(productItemDTO);
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductItemDTO findById(@PathVariable Long id) throws RecursoNotFoundException {
+        return productItemService.findById(id);
+    }
+
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ProductItemDTO> findAll(){
         return productItemService.findAll();
     }
+
 }
