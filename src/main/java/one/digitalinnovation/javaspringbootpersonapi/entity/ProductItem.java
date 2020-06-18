@@ -24,7 +24,7 @@ public class ProductItem {
     @Column(length = 6, precision = 2, nullable = false)
     private double totalValue;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "product_id")
     private Product product;
 }
