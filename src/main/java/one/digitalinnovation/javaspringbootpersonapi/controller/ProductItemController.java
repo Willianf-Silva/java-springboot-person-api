@@ -40,4 +40,16 @@ public class ProductItemController {
         return productItemService.findAll();
     }
 
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public MessageResponseDTO updateProductItem(@PathVariable Long id, @RequestBody @Valid ProductItemDTO productItemDTO) throws RecursoNotFoundException {
+        return productItemService.updateProductItem(id, productItemDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void deleteProductItem(@PathVariable Long id) throws RecursoNotFoundException {
+        productItemService.deleteProductItem(id);
+    }
 }
