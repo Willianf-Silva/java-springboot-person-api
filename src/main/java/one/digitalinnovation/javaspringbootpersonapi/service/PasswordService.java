@@ -2,7 +2,6 @@ package one.digitalinnovation.javaspringbootpersonapi.service;
 
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.PasswordDTO;
-import one.digitalinnovation.javaspringbootpersonapi.dto.request.ProductItemDTO;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Password;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.mapper.PasswordMapper;
@@ -11,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 @Service
 public class PasswordService {
@@ -52,5 +51,11 @@ public class PasswordService {
         return allPassword.stream()
                 .map(passwordMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public PasswordDTO findById(Long id) throws RecursoNotFoundException {
+        verifyIfExists(id);
+        Optional<Password> optionalPassword = passwordRepository.findById(id);
+        return passwordMapper.toDTO(optionalPassword.get());
     }
 }

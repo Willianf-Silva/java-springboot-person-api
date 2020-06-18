@@ -2,6 +2,7 @@ package one.digitalinnovation.javaspringbootpersonapi.controller;
 
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.PasswordDTO;
+import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,5 +31,10 @@ public class PasswordController {
     @ResponseStatus(HttpStatus.OK)
     public List<PasswordDTO> listAll(){
         return passwordService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PasswordDTO findById(@PathVariable Long id) throws RecursoNotFoundException {
+        return passwordService.findById(id);
     }
 }
