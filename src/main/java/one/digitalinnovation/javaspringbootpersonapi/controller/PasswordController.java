@@ -43,4 +43,10 @@ public class PasswordController {
     public MessageResponseDTO updatePassword(@PathVariable Long id,@RequestBody @Valid PasswordDTO passwordDTO) throws RecursoNotFoundException {
         return passwordService.updatedPassword(id, passwordDTO);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePassword(@PathVariable Long id) throws RecursoNotFoundException {
+        passwordService.deletePassword(id);
+    }
 }

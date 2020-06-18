@@ -69,4 +69,9 @@ public class PasswordService {
 
         return messageResponse("Updated password with id ", updatedPaswword.getId());
     }
+
+    public void deletePassword(Long id) throws RecursoNotFoundException {
+        verifyIfExists(id);
+        passwordRepository.deleteById(id);
+    }
 }
