@@ -37,4 +37,10 @@ public class PasswordController {
     public PasswordDTO findById(@PathVariable Long id) throws RecursoNotFoundException {
         return passwordService.findById(id);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public MessageResponseDTO updatePassword(@PathVariable Long id,@RequestBody @Valid PasswordDTO passwordDTO) throws RecursoNotFoundException {
+        return passwordService.updatedPassword(id, passwordDTO);
+    }
 }

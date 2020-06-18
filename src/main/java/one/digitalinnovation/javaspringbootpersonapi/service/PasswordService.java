@@ -58,4 +58,15 @@ public class PasswordService {
         Optional<Password> optionalPassword = passwordRepository.findById(id);
         return passwordMapper.toDTO(optionalPassword.get());
     }
+
+    public MessageResponseDTO updatedPassword(Long id, PasswordDTO passwordDTO) throws RecursoNotFoundException {
+        Password updatedPaswword = null;
+
+        if (passwordDTO.getId() == id){
+            verifyIfExists(id);
+            updatedPaswword = passwordRepository.save(passwordMapper.toModel(passwordDTO));
+        }
+
+        return messageResponse("Updated password with id ", updatedPaswword.getId());
+    }
 }
