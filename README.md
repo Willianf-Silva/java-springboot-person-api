@@ -27,9 +27,13 @@ Para executar o projeto no terminal, digite o seguinte comando:
 Após executar o comando acima, basta apenas abrir os seguintes endereços e visualizar a execução do projeto:
 
 `http://localhost:8080/api/v1/people`
+
 `http://localhost:8080/api/v1/attendant`
+
 `http://localhost:8080/api/v1/product`
+
 `http://localhost:8080/api/v1/productItem`
+
 `http://localhost:8080/api/v1/password`
 
 # 
