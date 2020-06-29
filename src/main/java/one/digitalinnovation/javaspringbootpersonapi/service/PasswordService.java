@@ -59,6 +59,14 @@ public class PasswordService {
         return passwordMapper.toDTO(optionalPassword.get());
     }
 
+    public List<PasswordDTO> findByStatus(String status) {
+        List<Password> allPasswordByStatus = passwordRepository.findByStatus(status);
+
+        return allPasswordByStatus.stream()
+                .map(passwordMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public MessageResponseDTO updatedPassword(Long id, PasswordDTO passwordDTO) throws RecursoNotFoundException {
         Password updatedPaswword = null;
 
