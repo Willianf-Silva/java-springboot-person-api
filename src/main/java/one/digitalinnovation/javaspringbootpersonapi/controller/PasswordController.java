@@ -38,6 +38,11 @@ public class PasswordController {
         return passwordService.findById(id);
     }
 
+    @GetMapping("/list/{status}")
+    public List<PasswordDTO> findByStatusOrderById(@PathVariable String status){
+        return passwordService.findByStatusOrderById(status);
+    }
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public MessageResponseDTO updatePassword(@PathVariable Long id,@RequestBody @Valid PasswordDTO passwordDTO) throws RecursoNotFoundException {

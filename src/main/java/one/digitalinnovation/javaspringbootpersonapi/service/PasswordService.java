@@ -53,6 +53,14 @@ public class PasswordService {
                 .collect(Collectors.toList());
     }
 
+    public List<PasswordDTO> findByStatusOrderById(String status) {
+        List<Password> allPasswordByStatus = passwordRepository.findByStatusOrderById(status);
+
+        return allPasswordByStatus.stream()
+                .map(passwordMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public PasswordDTO findById(Long id) throws RecursoNotFoundException {
         verifyIfExists(id);
         Optional<Password> optionalPassword = passwordRepository.findById(id);
