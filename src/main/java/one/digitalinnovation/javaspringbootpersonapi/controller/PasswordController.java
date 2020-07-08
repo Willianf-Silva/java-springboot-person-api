@@ -34,6 +34,7 @@ public class PasswordController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public PasswordDTO findById(@PathVariable Long id) throws RecursoNotFoundException {
         return passwordService.findById(id);
     }
@@ -48,5 +49,11 @@ public class PasswordController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePassword(@PathVariable Long id) throws RecursoNotFoundException {
         passwordService.deletePassword(id);
+    }
+
+    @GetMapping("//{status}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PasswordDTO> findByStatus(@PathVariable String status){
+        return passwordService.findByStatus(status);
     }
 }
