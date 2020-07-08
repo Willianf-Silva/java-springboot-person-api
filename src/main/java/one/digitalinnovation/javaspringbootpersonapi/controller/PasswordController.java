@@ -41,6 +41,7 @@ public class PasswordController {
     @GetMapping("/list/{status}")
     public List<PasswordDTO> findByStatusOrderById(@PathVariable String status){
         return passwordService.findByStatusOrderById(status);
+        
     }
 
     @PutMapping("/{id}")
