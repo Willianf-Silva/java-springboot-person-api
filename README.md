@@ -1,11 +1,11 @@
-### Reprodução do projeto desenvolvido na platadorma Digital Innovation One
+### Reprodução do projeto desenvolvido na plataforma Digital Innovation One
 Durante a live coding foi desenvolvido por [Rodrigo Peleias](https://github.com/rpeleias "Rodrigo Peleias") um pequeno sistema para o gerenciamento de pessoas de uma empresa através de uma API REST.
 
 - Disponível no link o [Projeto Original](https://github.com/rpeleias/personapi_dio_live_coding "Projeto Original")
 
 # 
 ##### Proposta para evolução do projeto
-- Desenvolver um serviço para pequenas empresas gerenciar a fila de atedimento.
+- Desenvolver um serviço para pequenas empresas gerenciar a fila de atendimento.
 
 # 
 ##### Neste projeto foi abordado os seguintes tópicos:
