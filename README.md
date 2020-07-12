@@ -5,13 +5,13 @@ Durante a live coding foi desenvolvido por [Rodrigo Peleias](https://github.com/
 
 # 
 ##### Proposta para evolução do projeto
-- Desenvolver um serviço para pequenas empresas gerenciar a fila de atendimento.
+- Desenvolver um serviço para uma barbearia gerenciar a fila de atendimento.
 
 # 
 ##### Neste projeto foi abordado os seguintes tópicos:
-- Operações para gerenciamento de usuários, atendentes, produtos e senhas utilizando  o padrão arquitetural REST (Cadastro, leitura, atualização e remoção) do sistema.
+- Operações para gerenciamento de usuários, atendentes, produtos e senhas utilizando o padrão arquitetural REST (Cadastro, leitura, atualização e remoção) do sistema.
 - Controle de versão através do Github.
-- Documentação utilizando Swagger e SpringFox
+- Documentação utilizando Swagger e SpringFox.
 - Implantação do sistema na nuvem através do Heroku.
 
 # 
