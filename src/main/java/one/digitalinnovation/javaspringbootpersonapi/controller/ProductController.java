@@ -28,7 +28,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Inclui produto",
+    @ApiOperation(value = "Incluir produto",
             notes = "Inclui um novo produto no banco de dados")
     public MessageResponseDTO createProduct(@RequestBody @Valid ProductDTO productDTO){
         return productService.createProduct(productDTO);
@@ -52,7 +52,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Atualiza produto",
+    @ApiOperation(value = "Atualiza dados de produto",
             notes = "Atualiza um produto no banco de dados de acordo com o id fornecido")
     public MessageResponseDTO updateProduct(@PathVariable Long id, @RequestBody @Valid ProductDTO productDTO) throws RecursoNotFoundException {
         return productService.updateProduct(id, productDTO);
