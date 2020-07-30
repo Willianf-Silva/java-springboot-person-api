@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.ProductDTO;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Product;
+import one.digitalinnovation.javaspringbootpersonapi.exception.ProductAlreadyRegisteredException;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Incluir produto",
             notes = "Inclui um novo produto no banco de dados")
-    public MessageResponseDTO createProduct(@RequestBody @Valid ProductDTO productDTO){
+    public MessageResponseDTO createProduct(@RequestBody @Valid ProductDTO productDTO) throws ProductAlreadyRegisteredException {
         return productService.createProduct(productDTO);
     }
 
