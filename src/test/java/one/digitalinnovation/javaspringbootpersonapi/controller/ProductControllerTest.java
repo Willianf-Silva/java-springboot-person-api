@@ -14,13 +14,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import java.util.Collections;
+
 import static one.digitalinnovation.javaspringbootpersonapi.utils.JsonConvertionUtils.asJsonString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,5 +104,46 @@ public class ProductControllerTest {
         mockMvc.perform(get(PRODUCT_API_URL_PATH + "/" + productDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void whenGETListWithProductIsCalledThenOkStatusIsReturned() throws Exception {
+        // given
+        ProductDTO productDTO = ProductDTOBuilder.builder().build().toProductDTO();
+
+        // when
+        when(productService.listAll())
+                .thenReturn(Collections.singletonList(productDTO));
+
+        //then
+        mockMvc.perform(get(PRODUCT_API_URL_PATH)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void whenDELETEIsCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
+        // given
+        ProductDTO productDTO = ProductDTOBuilder.builder().build().toProductDTO();
+
+        // when
+        doNothing().when(productService).delete(productDTO.getId());
+
+        // then
+        mockMvc.perform(delete(PRODUCT_API_URL_PATH + "/" + productDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void whenDELETEIsCalledWithInvalidIdThenNotFoundStatusIsReturned() throws Exception {
+        // when
+        doThrow(RecursoNotFoundException.class).when(productService).delete(INVALID_PRODUCT_ID);
+
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.delete(PRODUCT_API_URL_PATH + "/" + INVALID_PRODUCT_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
     }
 }

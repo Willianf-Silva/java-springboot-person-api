@@ -14,16 +14,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
+    private static final long INVALID_PRODUCT_ID = 1L;
 
     @Mock
     private ProductRepository productRepository;
@@ -90,5 +92,58 @@ public class ProductServiceTest {
 
         // then
         assertThrows(RecursoNotFoundException.class, () -> productService.findById(expectedFoundProductDTO.getId()));
+    }
+
+    @Test
+    void whenListProductIsCalledThenReturnAListOfProduct() {
+        // given
+        ProductDTO expectedFoundProductDTO = ProductDTOBuilder.builder().build().toProductDTO();
+        Product expectedFoundProduct = productMapper.toModel(expectedFoundProductDTO);
+
+        // when
+        when(productRepository.findAll())
+                .thenReturn(Collections.singletonList(expectedFoundProduct));
+
+        // then
+        List<ProductDTO> foundListProductsDTO = productService.listAll();
+
+        assertThat(foundListProductsDTO, is(not(empty())));
+        assertThat(foundListProductsDTO.get(0), is(equalTo(expectedFoundProductDTO)));
+    }
+
+    @Test
+    void whenListProductIsCalledThenReturnAEmptyListOfProduct() {
+        // when
+        when(productRepository.findAll())
+                .thenReturn(Collections.EMPTY_LIST);
+
+        // then
+        List<ProductDTO> foundListProductsDTO = productService.listAll();
+
+        assertThat(foundListProductsDTO, is(empty()));
+    }
+
+    @Test
+    void whenExclusionIsCalledWithValidIdThenAProductShouldBeDeleted() throws RecursoNotFoundException {
+        // given
+        ProductDTO expectedDeletedProductDTO = ProductDTOBuilder.builder().build().toProductDTO();
+        Product expectedDeletedProduct = productMapper.toModel(expectedDeletedProductDTO);
+
+        // when
+        when(productRepository.findById(expectedDeletedProductDTO.getId()))
+                .thenReturn(Optional.of(expectedDeletedProduct));
+        doNothing().when(productRepository).deleteById(expectedDeletedProductDTO.getId());
+
+        // then
+        productService.delete(expectedDeletedProductDTO.getId());
+        verify(productRepository, times(1)).findById(expectedDeletedProductDTO.getId());
+        verify(productRepository, times(1)).deleteById(expectedDeletedProductDTO.getId());
+    }
+
+    @Test
+    void whenExclusionIsCalledWithInvalidIdThenExceptionShouldBeThrown(){
+        when(productRepository.findById(INVALID_PRODUCT_ID)).thenReturn(Optional.empty());
+
+        assertThrows(RecursoNotFoundException.class, () -> productService.delete(INVALID_PRODUCT_ID));
     }
 }
