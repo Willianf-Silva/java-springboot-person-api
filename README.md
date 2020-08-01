@@ -4,11 +4,11 @@ Durante a live coding foi desenvolvido por [Rodrigo Peleias](https://github.com/
 - Disponível no link o [Projeto Original](https://github.com/rpeleias/personapi_dio_live_coding "Projeto Original")
 
 # 
-##### Proposta para evolução do projeto
+#### Proposta para evolução do projeto
 - Desenvolver um serviço para uma barbearia gerenciar a fila de atendimento.
 
 # 
-##### Neste projeto foi abordado os seguintes tópicos:
+#### Neste projeto foi abordado os seguintes tópicos:
 - Operações para gerenciamento de usuários, atendentes, produtos e senhas utilizando o padrão arquitetural REST (Cadastro, leitura, atualização e remoção) do sistema.
 - Controle de versão através do Github.
 - Documentação utilizando Swagger e SpringFox.
