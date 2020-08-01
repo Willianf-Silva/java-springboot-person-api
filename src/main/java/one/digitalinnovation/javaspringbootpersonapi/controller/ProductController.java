@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.ProductDTO;
-import one.digitalinnovation.javaspringbootpersonapi.entity.Product;
 import one.digitalinnovation.javaspringbootpersonapi.exception.ProductAlreadyRegisteredException;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.service.ProductService;
@@ -39,7 +38,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Retorna lista de produtos.",
             notes = "Retorna uma lista com todos os produtos cadastrados no banco de dados.")
-    public List<Product> listAll(){
+    public List<ProductDTO> listAll(){
         return productService.listAll();
     }
 

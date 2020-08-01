@@ -2,6 +2,7 @@ package one.digitalinnovation.javaspringbootpersonapi.service;
 
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.ProductDTO;
+import one.digitalinnovation.javaspringbootpersonapi.entity.Password;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Product;
 import one.digitalinnovation.javaspringbootpersonapi.exception.ProductAlreadyRegisteredException;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -31,8 +33,12 @@ public class ProductService {
     }
 
 
-    public List<Product> listAll() {
-        return productRepository.findAll();
+    public List<ProductDTO> listAll() {
+        List<Product> allProducts = productRepository.findAll();
+
+        return allProducts.stream()
+                .map(productMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public ProductDTO findById(Long id) throws RecursoNotFoundException {
