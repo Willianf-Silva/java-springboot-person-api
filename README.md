@@ -13,6 +13,7 @@ Durante a live coding foi desenvolvido por [Rodrigo Peleias](https://github.com/
 - Controle de versão através do Github.
 - Documentação utilizando Swagger e SpringFox.
 - Implantação do sistema na nuvem através do Heroku.
+- Desenvolvimento de testes utilizando os principais frameworks para testes unitários em Java: JUnit, Mockito e Hamcrest.
 
 # 
 São necessários os seguintes pré-requisitos para a execução do projeto
