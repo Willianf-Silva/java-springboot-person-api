@@ -16,7 +16,7 @@ import java.util.List;
 @Api(value = "API REST Senha de atendimento")
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1/password")
+@RequestMapping("/api/v1/passwords")
 public class PasswordController {
     PasswordService passwordService;
 

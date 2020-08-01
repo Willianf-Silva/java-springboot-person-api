@@ -17,7 +17,7 @@ import java.util.List;
 @Api(value = "API REST Produtos")
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 public class ProductController {
     ProductService productService;
 

@@ -16,7 +16,7 @@ import java.util.List;
 @Api(value = "API REST Cliente")
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1/attendant")
+@RequestMapping("/api/v1/attendants")
 public class AttendantController {
     private AttendantService attendantService;
 
