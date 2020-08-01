@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -141,9 +140,53 @@ public class ProductControllerTest {
         doThrow(RecursoNotFoundException.class).when(productService).delete(INVALID_PRODUCT_ID);
 
         // then
-        mockMvc.perform(MockMvcRequestBuilders.delete(PRODUCT_API_URL_PATH + "/" + INVALID_PRODUCT_ID)
+        mockMvc.perform(delete(PRODUCT_API_URL_PATH + "/" + INVALID_PRODUCT_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
+    }
+
+    @Test
+    void whenPUTIsCalledThenAProductIsUpdated() throws Exception {
+        // given
+        ProductDTO productDTO = ProductDTOBuilder.builder().build().toProductDTO();
+
+        // when
+        MessageResponseDTO expectedSuccessMessageResponseDTO = MessageResponseDTO.builder().message("Update product with id " + productDTO.getId()).build();
+        when(productService.updateProduct(productDTO.getId(), productDTO)).thenReturn(expectedSuccessMessageResponseDTO);
+
+        // then
+        mockMvc.perform(put(PRODUCT_API_URL_PATH + "/" + productDTO.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(asJsonString(productDTO)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void whenPUTIsCalledWithoutRequiredFieldThenAmErrorIsReturned() throws Exception {
+        //given
+        ProductDTO productDTO = ProductDTOBuilder.builder().build().toProductDTO();
+        productDTO.setName(null);
+
+        //then
+        mockMvc.perform(put(PRODUCT_API_URL_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(productDTO)))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void whenPUTsCalledWithInvalidIdThenNotFoundStatusIsReturned() throws Exception {
+        // given
+        ProductDTO productDTO = ProductDTOBuilder.builder().build().toProductDTO();
+
+        // when
+        doThrow(RecursoNotFoundException.class).when(productService).updateProduct(INVALID_PRODUCT_ID, productDTO);
+
+        // then
+        mockMvc.perform(put(PRODUCT_API_URL_PATH + "/" + INVALID_PRODUCT_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(productDTO)))
+                .andExpect(status().isNotFound());
     }
 }
