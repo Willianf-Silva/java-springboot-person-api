@@ -7,6 +7,7 @@ import one.digitalinnovation.javaspringbootpersonapi.entity.Person;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.mapper.PersonMapper;
 import one.digitalinnovation.javaspringbootpersonapi.repository.PersonRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -133,5 +135,33 @@ public class PersonServiceTest {
         assertThrows(RecursoNotFoundException.class, ()-> personService.delete(INVALID_PERSON_ID));
     }
 
-    // continuar implementando upddateById
+    @Test
+    void whenPersonAndIdInformedThenItShouldBeUpdated() throws Exception {
+        // given
+        PersonDTO personDTO = PersonDTOBuilder.builder().build().toPersonDTO();
+        personDTO.setFirstName("Willian");
+        Person expectedPerson = personMapper.toModel(personDTO);
+
+        // when
+        when(personRepository.findById(personDTO.getId())).thenReturn(Optional.of(expectedPerson));
+        when(personRepository.save(expectedPerson)).thenReturn(expectedPerson);
+
+        // then
+        MessageResponseDTO expectedMessageDTO = MessageResponseDTO.builder().message("Update person with id " + personDTO.getId()).build();
+        MessageResponseDTO successMessageDTO = personService.upddateById(personDTO.getId(), personDTO);
+
+        assertEquals(expectedMessageDTO, successMessageDTO);
+    }
+
+    @Test
+    void whenNotRegisteredPersonIdIsGivenForUpdateThenThrowAnException() {
+        // given
+        PersonDTO personDTO = PersonDTOBuilder.builder().build().toPersonDTO();
+
+        // when
+        when(personRepository.findById(personDTO.getId())).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(RecursoNotFoundException.class, () -> personService.upddateById(personDTO.getId(), personDTO));
+    }
 }
