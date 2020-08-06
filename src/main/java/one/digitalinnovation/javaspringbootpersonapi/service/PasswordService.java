@@ -1,13 +1,16 @@
 package one.digitalinnovation.javaspringbootpersonapi.service;
 
+import com.google.common.base.Throwables;
 import one.digitalinnovation.javaspringbootpersonapi.dto.MessageResponseDTO;
 import one.digitalinnovation.javaspringbootpersonapi.dto.request.PasswordDTO;
 import one.digitalinnovation.javaspringbootpersonapi.entity.Password;
+import one.digitalinnovation.javaspringbootpersonapi.entity.ProductItem;
 import one.digitalinnovation.javaspringbootpersonapi.exception.RecursoNotFoundException;
 import one.digitalinnovation.javaspringbootpersonapi.mapper.PasswordMapper;
 import one.digitalinnovation.javaspringbootpersonapi.repository.PasswordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +18,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class PasswordService {
-    PasswordMapper passwordMapper = PasswordMapper.INSTANCE;
-    PasswordRepository passwordRepository;
+    private PasswordMapper passwordMapper = PasswordMapper.INSTANCE;
+    private PasswordRepository passwordRepository;
+
+    @Autowired
+    private PersonService personService;
+
+    @Autowired
+    private AttendantService attendantService;
+
+    @Autowired
+    private ProductItemService productItemService;
 
     @Autowired
     public PasswordService(PasswordRepository passwordRepository) {
@@ -33,7 +45,18 @@ public class PasswordService {
         return passwordRepository.findById(id).orElseThrow(()-> new RecursoNotFoundException("Password not found with ID ", id));
     }
 
-    public MessageResponseDTO createPassword(PasswordDTO passwordDTO) {
+    public MessageResponseDTO createPassword(PasswordDTO passwordDTO) throws RecursoNotFoundException {
+        personService.findById(passwordDTO.getPerson().getId());
+        attendantService.findById(passwordDTO.getAttendant().getId());
+
+        passwordDTO.getProductItems().stream().forEach(item -> {
+            try {
+                productItemService.findById(item.getId());
+            } catch (RecursoNotFoundException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        });
+
         double cost = passwordDTO.getProductItems()
                 .stream()
                 .mapToDouble(item -> item.getTotalValue())

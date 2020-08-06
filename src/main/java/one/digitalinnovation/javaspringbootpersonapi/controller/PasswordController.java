@@ -29,7 +29,7 @@ public class PasswordController {
             notes = "Inclui uma nova senha de atendimento no banco de dados.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createPassword(@RequestBody @Valid PasswordDTO passwordDTO){
+    public MessageResponseDTO createPassword(@RequestBody @Valid PasswordDTO passwordDTO) throws RecursoNotFoundException {
         return passwordService.createPassword(passwordDTO);
     }
 
